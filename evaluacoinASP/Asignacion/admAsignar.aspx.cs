@@ -106,6 +106,7 @@ namespace evaluacoinASP.Asignacion
             obtenerSesion();
             //Encontrar el elemento en el DataSet  <- Esta es la clave, ¿cómo lo encuentro?
             //agregarlo a la lista de sesión
+
             Evaluador evaluador = (Evaluador)e.Item.DataItem;
             if (e.CommandName == "seleccionado")
             {
