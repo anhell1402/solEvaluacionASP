@@ -216,6 +216,7 @@
     <Content Include="Account\TwoFactorAuthenticationSignIn.aspx" />
     <Content Include="Account\VerifyPhoneNumber.aspx" />
     <Content Include="Asignacion\admAsignar.aspx" />
+    <Content Include="Asignacion\admAsignarV2.aspx" />
     <Content Include="Asignacion\Asignar.aspx" />
     <Content Include="Catal\FuncEval.aspx" />
     <Content Include="Contact.aspx" />
@@ -409,6 +410,13 @@
     </Compile>
     <Compile Include="Asignacion\admAsignar.aspx.designer.cs">
       <DependentUpon>admAsignar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Asignacion\admAsignarV2.aspx.cs">
+      <DependentUpon>admAsignarV2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Asignacion\admAsignarV2.aspx.designer.cs">
+      <DependentUpon>admAsignarV2.aspx</DependentUpon>
     </Compile>
     <Compile Include="Asignacion\Asignar.aspx.cs">
       <DependentUpon>Asignar.aspx</DependentUpon>

@@ -67,7 +67,7 @@ namespace evaluacoinASP.Asignacion
             if(e.CommandName == "editar")
             {
 
-                Response.Redirect("~/Asignacion/admAsignar.aspx?e=" + e.CommandArgument.ToString());
+                Response.Redirect("~/Asignacion/admAsignarV2.aspx?e=" + e.CommandArgument.ToString());
                 
             }
             else
