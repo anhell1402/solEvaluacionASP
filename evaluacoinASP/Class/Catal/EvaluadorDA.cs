@@ -30,11 +30,13 @@ namespace evaluacoinASP.Class.Catal
                 while(dr.Read())
                 {
                     evaluador = new Evaluador();
+                    evaluador.InfoEmpleado.IDGral = Convert.ToInt32(dr["IdGral"]);
                     evaluador.InfoEmpleado.Cve = Convert.ToInt32(dr["Empleado"]);
                     evaluador.InfoEmpleado.Nombre = dr["Nombre"].ToString();
                     evaluador.InfoEmpleado.Paterno = dr["ApellidoPaterno"].ToString();
                     evaluador.InfoEmpleado.Materno = dr["ApellidoMaterno"].ToString();
                     evaluador.InfoEmpleado.RFC = dr["RFC"].ToString();
+                    evaluador.InfoEmpleado.IdFuncion = dr["Funcion"].ToString();
                     Models.Cat.Asignacion asignacion = new Models.Cat.Asignacion();
                     asignacion.InfoFuncionEvaluadora.Denominacion = dr["DenominacionPlaza"].ToString();
                     asignacion.InfoFuncionEvaluadora.IdFuncion = dr["Funcion"].ToString();
@@ -62,6 +64,33 @@ namespace evaluacoinASP.Class.Catal
                 lst = null;
             }
             return lst;
+        }
+
+        public bool AlmacenarEvaluador(CentroTrabajo centro, Empleado empleado)
+        {
+            SqlConnection oCon = new SqlConnection(cadena);
+            SqlCommand oCmd = new SqlCommand("dbo.setGuardarEvaluador", oCon);
+            oCmd.CommandType = CommandType.StoredProcedure;
+            oCmd.Parameters.AddWithValue("@idCentro", centro.IDGlobal);
+            oCmd.Parameters.AddWithValue("@idGral", empleado.IDGral);
+            bool correcto = false;
+            try
+            {
+                oCon.Open();
+                oCmd.ExecuteNonQuery();
+                correcto = true;
+            }
+            catch (Exception)
+            {
+                correcto = false;
+            }
+            finally
+            {
+                if (oCon.State == ConnectionState.Open)
+                    oCon.Close();
+                oCon.Dispose();
+            }
+            return correcto;
         }
     }
 }

@@ -1,5 +1,6 @@
-﻿using evaluacoinASP.Models.Cat;
-using evaluacoinASP.Class.Catal;
+﻿
+using evaluacoinASP.Class.Catal.V2;
+using evaluacoinASP.Models.V2.Cat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +22,8 @@ namespace evaluacoinASP.Asignacion
 
         private void CargarDatos()
         {
-            List<CentroTrabajo> lst = new List<CentroTrabajo>();
-            CentroTrabajoDA obj = new CentroTrabajoDA();
+            CentrosTrabajo lst = new CentrosTrabajo();
+            CentroTrabajoDAV2 obj = new CentroTrabajoDAV2();
             lst = obj.GetCentrosTrabajo();
             rptAsignar.DataSource = lst;
             rptAsignar.DataBind();
