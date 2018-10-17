@@ -102,5 +102,109 @@ namespace evaluacoinASP.Class.Catal.V2
             }
             return correcto;
         }
+
+        public BaseEmpleados ObtenerListadoEmpleadosLibres(CentroTrabajo centro)
+        {
+            SqlConnection oCon = new SqlConnection(cadena);
+            SqlCommand oCmd = new SqlCommand("dbo.getEmpleadosLibre", oCon);
+            oCmd.Parameters.AddWithValue("@idCentro", centro.IDGlobal);
+            oCmd.CommandType = CommandType.StoredProcedure;
+            BaseEmpleados lst = null;
+            BaseEmpleado empleado = null;
+            try
+            {
+                oCon.Open();
+                lst = new BaseEmpleados();
+                SqlDataReader dr = oCmd.ExecuteReader();
+                while(dr.Read())
+                {
+                    empleado = new BaseEmpleado();
+                    empleado.CveEmpleado = Convert.ToInt32(dr["Empleado"]);
+                    empleado.Nombre = dr["Nombre"].ToString();
+                    empleado.DenominacionPlaza = dr["DenominacionPlaza"].ToString();
+                    empleado.IdFuncion = dr["Funcion"].ToString();
+                    lst.Add(empleado);
+                }
+            }
+            catch (Exception)
+            {
+                lst = null;
+            }
+            finally
+            {
+                if (oCon.State == ConnectionState.Open)
+                    oCon.Close();
+                oCon.Dispose();
+            }
+            return lst;
+        }
+
+        public BaseEmpleados ObtenerListadoEmpleadosLibres(CentroTrabajo centro, string prefix)
+        {
+            SqlConnection oCon = new SqlConnection(cadena);
+            SqlCommand oCmd = new SqlCommand("dbo.getEmpleadosLibrePrefix", oCon);
+            oCmd.Parameters.AddWithValue("@idCentro", centro.IDGlobal);
+            oCmd.Parameters.AddWithValue("@prefix", prefix);
+            oCmd.CommandType = CommandType.StoredProcedure;
+            BaseEmpleados lst = null;
+            BaseEmpleado empleado = null;
+            try
+            {
+                oCon.Open();
+                lst = new BaseEmpleados();
+                SqlDataReader dr = oCmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    empleado = new BaseEmpleado();
+                    empleado.CveEmpleado = Convert.ToInt32(dr["Empleado"]);
+                    empleado.Nombre = dr["Nombre"].ToString();
+                    empleado.DenominacionPlaza = dr["DenominacionPlaza"].ToString();
+                    empleado.IdFuncion = dr["Funcion"].ToString();
+                    lst.Add(empleado);
+                }
+            }
+            catch (Exception)
+            {
+                lst = null;
+            }
+            finally
+            {
+                if (oCon.State == ConnectionState.Open)
+                    oCon.Close();
+                oCon.Dispose();
+            }
+            return lst;
+        }
+        public string[] ObtenerListadoEmpleadosLibres(string centro, string prefix)
+        {
+            SqlConnection oCon = new SqlConnection(cadena);
+            SqlCommand oCmd = new SqlCommand("dbo.getEmpleadosLibrePrefix", oCon);
+            oCmd.Parameters.AddWithValue("@idCentro", Convert.ToInt32(centro));
+            oCmd.Parameters.AddWithValue("@prefix", prefix);
+            oCmd.CommandType = CommandType.StoredProcedure;
+            List<string> lst = null;
+            
+            try
+            {
+                oCon.Open();
+                lst = new List<string>();
+                SqlDataReader dr = oCmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    lst.Add(string.Format("{0}%{1}", dr["Empleado"].ToString(), dr["Nombre"].ToString()));
+                }
+            }
+            catch (Exception)
+            {
+                lst = null;
+            }
+            finally
+            {
+                if (oCon.State == ConnectionState.Open)
+                    oCon.Close();
+                oCon.Dispose();
+            }
+            return lst.ToArray();
+        }
     }
 }

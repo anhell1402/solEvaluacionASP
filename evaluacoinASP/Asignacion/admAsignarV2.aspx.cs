@@ -28,6 +28,7 @@ namespace evaluacoinASP.Asignacion
                 lblMunicipio.Text = centro.Municipio;
                 lblUnidadResponsable.Text = centro.UnidadResponsable;
                 CargarDatos();
+                
             }
             
         }
@@ -84,6 +85,17 @@ namespace evaluacoinASP.Asignacion
                     CargarDatos();
                 }
             }
+        }
+
+        protected void btnBuscarPersonal_Click(object sender, EventArgs e)
+        {
+            int id = Convert.ToInt32(Request.QueryString["e"]);
+            CentroTrabajo centro = new CentroTrabajo();
+            centro.IDGlobal = id;
+            BaseEvaluador obj = new BaseEvaluador();
+            BaseEmpleados lst = obj.ObtenerListadoEmpleadosLibres(centro, txtBusqueda.Text.Trim());
+            rptCoincidencias.DataSource = lst;
+            rptCoincidencias.DataBind();
         }
     }
 }
