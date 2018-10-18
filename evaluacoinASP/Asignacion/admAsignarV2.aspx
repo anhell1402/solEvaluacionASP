@@ -111,8 +111,11 @@
                                                 <td><%#Eval("CveEmpleado") %></td>
                                                 <td><%#Eval("Nombre") %></td>
                                                 <td><%#Eval("DenominacionPlaza") %></td>
-                                                <td><asp:RadioButton ID="rbSeleccionado" runat="server" 
-                                                    GroupName="coincidencias" /></td>
+                                                <td style="text-align:center;">
+                                                    <asp:ImageButton ID="imgAgregarEmpleado" runat="server" 
+                                                        Height="30" Width="30" ImageUrl="~/Content/images/in.png"
+                                                        CommandArgument='<%#Eval("CveEmpleado") %>' CommandName="agregarIndependiente" />
+                                                </td>
                                             </tr>
                                         </ItemTemplate>
                                         <FooterTemplate>
