@@ -67,6 +67,38 @@ namespace evaluacoinASP.Class.Catal.V2
             return lst;
         }
 
+        public bool EmpleadoEvaluador(CentroTrabajo centro, BaseEmpleado empleado)
+        {
+            SqlConnection oCon = new SqlConnection(cadena);
+            string comando = string.Empty;
+            comando = "dbo.setGuardarEvaluadorAsignado";
+            SqlCommand oCmd = new SqlCommand(comando, oCon);
+            oCmd.CommandType = CommandType.StoredProcedure;
+            oCmd.Parameters.AddWithValue("@idCentro", centro.IDGlobal);
+            oCmd.Parameters.AddWithValue("@idEmpleado", empleado.CveEmpleado);
+            oCmd.Parameters.AddWithValue("@funcion", empleado.IdFuncion);
+            oCmd.Parameters.AddWithValue("@inicio", empleado.Inicio);
+            oCmd.Parameters.AddWithValue("@fin", empleado.Fin);
+            bool correcto = false;
+            try
+            {
+                oCon.Open();
+                oCmd.ExecuteNonQuery();
+                correcto = true;
+            }
+            catch (Exception ex)
+            {
+                correcto = false;
+            }
+            finally
+            {
+                if (oCon.State == ConnectionState.Open)
+                    oCon.Close();
+                oCon.Dispose();
+            }
+            return correcto;
+        }
+
         public bool EmpleadoEvaluador(CentroTrabajo centro, BaseEmpleado empleado, Accion accion)
         {
             SqlConnection oCon = new SqlConnection(cadena);
