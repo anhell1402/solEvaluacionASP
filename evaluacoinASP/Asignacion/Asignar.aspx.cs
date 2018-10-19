@@ -54,10 +54,6 @@ namespace evaluacoinASP.Asignacion
                         limpiar.Visible = true;
                         listo.Visible = true;
                         break;
-                    case 2: //sólo guardado
-                        limpiar.Visible = true;
-                        guardado.Visible = true;
-                        break;
                 }
 
             }

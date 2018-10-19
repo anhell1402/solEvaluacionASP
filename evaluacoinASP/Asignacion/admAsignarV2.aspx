@@ -79,6 +79,8 @@
                             <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="btnGuardar_Click" />
                             <br />
                             <asp:Label ID="lblAvisoErrorAsignado" runat="server" CssClass="p-3 mb-2 bg-danger text-white"></asp:Label>
+                            <asp:HiddenField ID="hfNuevo" runat="server" Value="1" />
+                            <asp:HiddenField ID="hfIDGralEvaluador" runat="server" />
                         </div>
                     </div>
                 </div>
@@ -111,8 +113,8 @@
                                         <td><%#Eval("CveEmpleado") %></td>
                                         <td><%#Eval("Nombre") %> <%#Eval("Paterno") %> <%#Eval("Materno") %></td>
                                         <td><%#Eval("DenominacionPlaza") %></td>
-                                        <td><%#Eval("Inicio") %></td>
-                                        <td><%#Eval("Fin") %></td>
+                                        <td><%#Eval("FechaInicio") %></td>
+                                        <td><%#Eval("FechaFin") %></td>
                                         <td style="text-align:center;"><%#Eval("Dias") %></td>
                                         <td style="text-align:center;">
                                             <asp:ImageButton ID="imgChecked" runat="server" ImageUrl="~/Content/images/in.png" Height="30" Width="30"
@@ -195,13 +197,17 @@
                                     <table class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
-                                                <th style="text-align:center;">Empleado</th>
-                                                <th style="text-align:center;">Nombre</th>
-                                                <th style="text-align:center;">Puesto</th>
-                                                <th style="text-align:center;">Inicio</th>
-                                                <th style="text-align:center;">Fin</th>
-                                                <th style="text-align:center;">Días</th>
-                                                <th style="text-align:center">Selección</th>
+                                                <th rowspan="2" style="text-align:center;">Empleado</th>
+                                                <th rowspan="2" style="text-align:center;">Nombre</th>
+                                                <th rowspan="2" style="text-align:center;">Puesto</th>
+                                                <th rowspan="2" style="text-align:center;">Inicio</th>
+                                                <th rowspan="2" style="text-align:center;">Fin</th>
+                                                <th rowspan="2" style="text-align:center;">Días</th>
+                                                <th colspan="2" style="text-align:center">Opciones</th>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align:center;">Remover</th>
+                                                <th style="text-align:center;">Modif. Periodo</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -211,12 +217,16 @@
                                         <td><%#Eval("CveEmpleado") %></td>
                                         <td><%#Eval("Nombre") %> <%#Eval("Paterno") %> <%#Eval("Materno") %></td>
                                         <td><%#Eval("DenominacionPlaza") %></td>
-                                        <td><%#Eval("Inicio") %></td>
-                                        <td><%#Eval("Fin") %></td>
+                                        <td><%#Eval("FechaInicio") %></td>
+                                        <td><%#Eval("FechaFin") %></td>
                                         <td style="text-align:center;"><%#Eval("Dias") %></td>
                                         <td style="text-align:center;">
                                             <asp:ImageButton ID="imgChecked" runat="server" ImageUrl="~/Content/images/out.png" Height="30" Width="30"
                                                 CommandName="seleccionado" CommandArgument='<%#Eval("IDGral")%>' />
+                                        </td>
+                                        <td style="text-align:center;">
+                                            <asp:ImageButton ID="imgEditPeriodo" runat="server" ImageUrl="~/Content/images/edit_calendar.png"
+                                                Height="30" Width="30" CommandName="editarPeriodo" CommandArgument='<%#Eval("IDGral") %>' />
                                         </td>
                                     </tr>
                                 </ItemTemplate>

@@ -2,7 +2,7 @@
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <h3>Asignación de funciones evaluadoras a centros de trabajo - <%=DateTime.Now.Year %></h3>
+    <h3>Asignación manual de funciones evaluadoras a centros de trabajo - <%=DateTime.Now.Year %></h3>
     
     <div style="height:450px; overflow-y:auto;">
         <asp:Repeater ID="rptAsignar" runat="server" OnItemDataBound="rptAsignar_ItemDataBound" OnItemCommand="rptAsignar_ItemCommand">
@@ -62,17 +62,14 @@
             <div class="col-lg-3">
                 <asp:Image ID="imgEditar" runat="server" ImageUrl="~/Content/images/edit.png" Height="50" Width="50" /> Modificar/Realizar asignación
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-3">
                 <asp:Image ID="imgLimpiar" runat="server" ImageUrl="~/Content/images/delete.png" Height="50" Width="50" /> Limpiar asignación
             </div>
             <div class="col-lg-3">
                 <asp:Image ID="imgPendiente" runat="server" ImageUrl="~/Content/images/warning.png" Height="50" Width="50" /> Centro de trabajo sin asignación
             </div>
-            <div class="col-lg-2">
-                <asp:Image ID="imgGuardado" runat="server" ImageUrl="~/Content/images/pre_done.png" Height="50" Width="50" /> Asignación NO liberada
-            </div>
-            <div class="col-lg-2">
-                <asp:Image ID="imgListo" runat="server" ImageUrl="~/Content/images/done.png" Height="50" Width="50" /> Asignación LISTA
+            <div class="col-lg-3">
+                <asp:Image ID="imgListo" runat="server" ImageUrl="~/Content/images/done.png" Height="50" Width="50" /> Con Asignación
             </div>
         </div>
     </div>

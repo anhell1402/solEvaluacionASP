@@ -39,6 +39,7 @@ namespace evaluacoinASP.Class.Catal.V2
                     centro.Municipio = dr["municipio"].ToString();
                     centro.CTrabajo = dr["centroTrabajo"].ToString();
                     centro.IDGlobal = Convert.ToInt32(dr["idConsec"]);
+                    centro.Estatus = Convert.ToInt32(dr["estatus"]);
                     lst.Add(centro);
                 }
             }

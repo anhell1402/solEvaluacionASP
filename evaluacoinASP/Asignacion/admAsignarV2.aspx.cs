@@ -45,12 +45,19 @@ namespace evaluacoinASP.Asignacion
             lst = objE.ObtenerPosiblesEvaluadores(centro, Asig.Posibles);
             rptEvaluadoresPosibles.DataSource = lst;
             rptEvaluadoresPosibles.DataBind();
+            CargarAsignados();
+        }
 
+        private void CargarAsignados()
+        {
+            int id = Convert.ToInt32(Request.QueryString["e"]);
+            CentroTrabajo centro = new CentroTrabajo();
+            centro.IDGlobal = id;
+            BaseEvaluador objE = new BaseEvaluador();
+            BaseEmpleados lst = new BaseEmpleados();
             lst = objE.ObtenerPosiblesEvaluadores(centro, Asig.Asignado);
             rptEvaluadoresAsignados.DataSource = lst;
             rptEvaluadoresAsignados.DataBind();
-
-
         }
 
         protected void rptEvaluadoresPosibles_ItemCommand(object source, RepeaterCommandEventArgs e)
@@ -72,17 +79,37 @@ namespace evaluacoinASP.Asignacion
 
         protected void rptEvaluadoresAsignados_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
+            CentroTrabajo centro = new CentroTrabajo();
+            int idCentro = Convert.ToInt32(Request.QueryString["e"]);
+            centro.IDGlobal = idCentro;
+            BaseEmpleado empleado = new BaseEmpleado();
+            empleado.IDGral = Convert.ToInt32(e.CommandArgument);
+            BaseEvaluador obj = new BaseEvaluador();
             if (e.CommandName == "seleccionado")
-            {
-                CentroTrabajo centro = new CentroTrabajo();
-                BaseEmpleado empleado = new BaseEmpleado();
-                int idCentro = Convert.ToInt32(Request.QueryString["e"]);
-                centro.IDGlobal = idCentro;
-                empleado.IDGral = Convert.ToInt32(e.CommandArgument);
-                BaseEvaluador obj = new BaseEvaluador();
+            {                
                 if (obj.EmpleadoEvaluador(centro, empleado, Accion.Eliminar))
                 {
                     CargarDatos();
+                }
+            }
+            else
+            {
+                if(e.CommandName == "editarPeriodo")
+                {
+                    //buscar la información, mostrar la ventana con la info y actualizar.
+                    empleado = obj.ObtenerEmpleadoEvaluador(centro, empleado);
+                    if(empleado != null)
+                    {
+                        lblClaveEmpleado.Text = empleado.CveEmpleado.ToString();
+                        lblNombreEmpleado.Text = empleado.Nombre + " " + empleado.Paterno + " " + empleado.Materno;
+                        lblFuncion.Text = empleado.IdFuncion + " " + empleado.DenominacionPlaza;
+                        hfNuevo.Value = "0";
+                        hfIDGralEvaluador.Value = empleado.IDGral.ToString();
+                        txtDesde.Text = empleado.Inicio.ToShortDateString();
+                        txtHasta.Text = empleado.Fin.ToShortDateString();
+                        ModalPopupExtender1.Show();
+
+                    }
                 }
             }
         }
@@ -132,10 +159,20 @@ namespace evaluacoinASP.Asignacion
                 empleado.IdFuncion = lblFuncion.Text.Split('-')[0].Trim();
                 centro.IDGlobal = Convert.ToInt32(Request.QueryString["e"]);
                 BaseEvaluador obj = new BaseEvaluador();
-                if(obj.EmpleadoEvaluador(centro, empleado))
+                bool correcto = false;
+                if (hfNuevo.Value.CompareTo("1") == 0) //nueva asignacion
+                    correcto = obj.EmpleadoEvaluador(centro, empleado);
+                else //actualizacion de fechas
+                {
+                    empleado.IDGral = Convert.ToInt32(hfIDGralEvaluador.Value);
+                    correcto = obj.ModificaPeriodoEmpleadoEvaluador(centro, empleado);
+                }
+                if (correcto)
                 {
                     txtBusqueda.Text = string.Empty;
                     rptCoincidencias.Visible = false;
+                    //CargarAsignados();
+                    Response.Redirect("~/Asignacion/admAsignarV2?e=" + Request.QueryString["e"]);
                 }
                 else
                 {

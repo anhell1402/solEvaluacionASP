@@ -49,15 +49,6 @@ namespace evaluacoinASP.Asignacion {
         protected global::System.Web.UI.WebControls.Image imgPendiente;
         
         /// <summary>
-        /// imgGuardado control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgGuardado;
-        
-        /// <summary>
         /// imgListo control.
         /// </summary>
         /// <remarks>

@@ -99,6 +99,78 @@ namespace evaluacoinASP.Class.Catal.V2
             return correcto;
         }
 
+        public bool ModificaPeriodoEmpleadoEvaluador(CentroTrabajo centro, BaseEmpleado empleado)
+        {
+            SqlConnection oCon = new SqlConnection(cadena);
+            SqlCommand oCmd = new SqlCommand("dbo.updateAsignacionEvaluador", oCon);
+            oCmd.Parameters.AddWithValue("@idCentro", centro.IDGlobal);
+            oCmd.Parameters.AddWithValue("@idGral", empleado.IDGral);
+            oCmd.Parameters.AddWithValue("@inicio", empleado.Inicio);
+            oCmd.Parameters.AddWithValue("@fin", empleado.Fin);
+            oCmd.CommandType = CommandType.StoredProcedure;
+            bool correcto = false;
+            try
+            {
+                oCon.Open();
+                oCmd.ExecuteNonQuery();
+                correcto = true;
+            }
+            catch (Exception)
+            {
+                correcto = false;
+            }
+            finally
+            {
+                if (oCon.State == ConnectionState.Open)
+                    oCon.Close();
+                oCon.Dispose();
+            }
+            return correcto;
+        }
+
+        public BaseEmpleado ObtenerEmpleadoEvaluador(CentroTrabajo centro, BaseEmpleado empleado)
+        {
+            SqlConnection oCon = new SqlConnection(cadena);
+            SqlCommand oCmd = new SqlCommand("dbo.getAsignacionEvaluador", oCon);
+            oCmd.Parameters.AddWithValue("@idCentro", centro.IDGlobal);
+            oCmd.Parameters.AddWithValue("@idGral", empleado.IDGral);
+            oCmd.CommandType = CommandType.StoredProcedure;
+            try
+            {
+                oCon.Open();
+                SqlDataReader dr = oCmd.ExecuteReader();
+                dr.Read();
+                empleado.IDGral = Convert.ToInt32(dr["idConsecEvaluador"]);
+                empleado.IdConsecCentroTrabajo = Convert.ToInt32(dr["idConsecCentroTrabajo"]);
+                empleado.CveEmpleado = Convert.ToInt32(dr["idEmpleado"]);
+                empleado.IdFuncion = dr["idFuncion"].ToString();
+                empleado.Inicio = Convert.ToDateTime(dr["inicio"]);
+                empleado.Fin = Convert.ToDateTime(dr["fin"]);
+                empleado.IdUR = Convert.ToInt32(dr["idUR"]);
+                empleado.IdArea = Convert.ToInt32(dr["idArea"]);
+                empleado.IdEstado = Convert.ToInt32(dr["idEstado"]);
+                empleado.IdMunicipio = Convert.ToInt32(dr["idMunicipio"]);
+                empleado.IdCentroTrabajo = Convert.ToInt32(dr["idCentroTrabajo"]);
+                empleado.IdPlaza = Convert.ToInt32(dr["idPlaza"]);
+                empleado.Anio = Convert.ToInt32(dr["anio"]);
+                empleado.Paterno = dr["ApellidoPaterno"].ToString();
+                empleado.Materno = dr["ApellidoMaterno"].ToString();
+                empleado.Nombre = dr["Nombre"].ToString();
+                empleado.DenominacionPlaza = dr["DenominacionPlaza"].ToString();
+            }
+            catch (Exception)
+            {
+                empleado = null;
+            }
+            finally
+            {
+                if (oCon.State == ConnectionState.Open)
+                    oCon.Close();
+                oCon.Dispose();
+            }
+            return empleado;
+        }
+
         public bool EmpleadoEvaluador(CentroTrabajo centro, BaseEmpleado empleado, Accion accion)
         {
             SqlConnection oCon = new SqlConnection(cadena);
