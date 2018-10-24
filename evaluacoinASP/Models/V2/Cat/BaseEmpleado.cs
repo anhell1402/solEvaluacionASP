@@ -38,6 +38,8 @@ namespace evaluacoinASP.Models.V2.Cat
         public int IdPlaza { set; get; }
         public int Anio { set; get; }
         public int IdConsecCentroTrabajo { set; get; }
+        public int IdPadre { set; get; }
+        public int SupleAsignacion { set; get; }
        
         private string formatoFecha(DateTime fecha)
         {

@@ -279,6 +279,45 @@ namespace evaluacoinASP.Class.Catal.V2
             }
             return lst;
         }
+        public BaseEmpleados ObtenerListadoEmpleadosLibres(string prefix)
+        {
+            SqlConnection oCon = new SqlConnection(cadena);
+            SqlCommand oCmd = new SqlCommand("dbo.getEmpleadosPrefix", oCon);
+            oCmd.Parameters.AddWithValue("@prefix", prefix);
+            oCmd.CommandType = CommandType.StoredProcedure;
+            BaseEmpleados lst = null;
+            BaseEmpleado empleado = null;
+            try
+            {
+                oCon.Open();
+                lst = new BaseEmpleados();
+                SqlDataReader dr = oCmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    empleado = new BaseEmpleado();
+                    empleado.IDGral = Convert.ToInt32(dr["id"]);
+                    empleado.CveEmpleado = Convert.ToInt32(dr["Empleado"]);
+                    empleado.Nombre = dr["Nombre"].ToString();
+                    empleado.DenominacionPlaza = dr["DenominacionPlaza"].ToString();
+                    empleado.IdFuncion = dr["Funcion"].ToString();
+                    empleado.CentroDeTrabajo = dr["CentroDeTrabajo"].ToString();
+                    empleado.Area = dr["Area"].ToString();
+                    empleado.UnidadResponsable = dr["UnidadResponsable"].ToString();
+                    lst.Add(empleado);
+                }
+            }
+            catch (Exception)
+            {
+                lst = null;
+            }
+            finally
+            {
+                if (oCon.State == ConnectionState.Open)
+                    oCon.Close();
+                oCon.Dispose();
+            }
+            return lst;
+        }
         public string[] ObtenerListadoEmpleadosLibres(string centro, string prefix)
         {
             SqlConnection oCon = new SqlConnection(cadena);
@@ -309,6 +348,98 @@ namespace evaluacoinASP.Class.Catal.V2
                 oCon.Dispose();
             }
             return lst.ToArray();
+        }
+        /// <summary>
+        /// Para el almacenamiento de un hijo de un evaluador, el ID del padre debe ir en la propiedad CveEmpleado del objeto empleado
+        /// </summary>
+        /// <param name="empleado"></param>
+        /// <param name="evaluador"></param>
+        /// <returns></returns>
+        public bool AlmacenaAsignacionManual(BaseEmpleado empleado, bool evaluador, bool supleAutomatico)
+        {
+            bool correcto = false;
+            SqlConnection oCon = new SqlConnection(cadena);
+            SqlCommand oCmd = new SqlCommand("dbo.setNuevaAsignacion", oCon);
+            oCmd.CommandType = CommandType.StoredProcedure;
+            oCmd.Parameters.AddWithValue("@idGral", empleado.IDGral);
+            oCmd.Parameters.AddWithValue("@ini", empleado.Inicio);
+            oCmd.Parameters.AddWithValue("@fi", empleado.Fin);
+            if (evaluador)
+                oCmd.Parameters.AddWithValue("@padre", "0");
+            else
+                oCmd.Parameters.AddWithValue("@padre", empleado.CveEmpleado);
+            if(supleAutomatico)
+                oCmd.Parameters.AddWithValue("@sup", "1");
+            else
+                oCmd.Parameters.AddWithValue("@sup", "0");
+            try
+            {
+                oCon.Open();
+                oCmd.ExecuteNonQuery();
+                correcto = true;
+            }
+            catch (Exception ex)
+            {
+                correcto = false;
+            }
+            finally
+            {
+                if (oCon.State == ConnectionState.Open)
+                    oCon.Close();
+                oCon.Dispose();
+            }
+            return correcto;
+        }
+
+        public BaseEmpleados ObtenerAsignacionesManuales()
+        {
+            SqlConnection oCon = new SqlConnection(cadena);
+            SqlCommand oCmd = new SqlCommand("dbo.getAsignacionesManuales", oCon);
+            oCmd.CommandType = CommandType.StoredProcedure;
+            SqlDataReader dr;
+            BaseEmpleados lst = null;
+            BaseEmpleado emp = null;
+            try
+            {
+                oCon.Open();
+                dr = oCmd.ExecuteReader();
+                lst = new BaseEmpleados();
+                while (dr.Read())
+                {
+                    emp = new BaseEmpleado();
+                    emp.IDGral = Convert.ToInt32(dr["id"]);
+                    emp.CveEmpleado = Convert.ToInt32(dr["idEmpleado"]);
+                    emp.Inicio = Convert.ToDateTime(dr["inicio"]);
+                    emp.Fin = Convert.ToDateTime(dr["fin"]);
+                    emp.IdUR = Convert.ToInt32(dr["ur"]);
+                    emp.IdArea = Convert.ToInt32(dr["area"]);
+                    emp.IdCentroTrabajo = Convert.ToInt32(dr["ct"]);
+                    emp.IdEstado = Convert.ToInt32(dr["edo"]);
+                    emp.IdMunicipio = Convert.ToInt32(dr["mun"]);
+                    emp.Anio = Convert.ToInt32(dr["anio"]);
+                    emp.IdPadre = Convert.ToInt32(dr["idpadre"]);
+                    emp.SupleAsignacion = Convert.ToInt32(dr["suple"]);
+                    emp.Paterno = dr["ApellidoPaterno"].ToString();
+                    emp.Materno = dr["ApellidoMaterno"].ToString();
+                    emp.Nombre = dr["Nombre"].ToString();
+                    emp.UnidadResponsable = dr["UnidadResponsable"].ToString();
+                    emp.Area = dr["Area"].ToString();
+                    emp.CentroDeTrabajo = dr["CentroDeTrabajo"].ToString();
+                    emp.Municipio = dr["Municipio"].ToString();
+                    lst.Add(emp);
+                }
+            }
+            catch (Exception ex)
+            {
+                lst = null;
+            }
+            finally
+            {
+                if (oCon.State == ConnectionState.Open)
+                    oCon.Close();
+                oCon.Dispose();
+            }
+            return lst;
         }
     }
 }

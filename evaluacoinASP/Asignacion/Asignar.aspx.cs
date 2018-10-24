@@ -61,16 +61,26 @@ namespace evaluacoinASP.Asignacion
 
         protected void rptAsignar_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            if(e.CommandName == "editar")
+            string id = e.CommandArgument.ToString();
+            if (e.CommandName == "editar")
             {
-
-                Response.Redirect("~/Asignacion/admAsignarV2.aspx?e=" + e.CommandArgument.ToString());
-                
+                Response.Redirect("~/Asignacion/admAsignarV2.aspx?e=" + id);
             }
             else
             {
                 //limpiar
-
+                CentroTrabajoDAV2 obj = new CentroTrabajoDAV2();
+                CentroTrabajo centro = new CentroTrabajo();
+                centro.IDGlobal = Convert.ToInt32(id);
+                if(obj.LimpiarAsignacion(centro))
+                {
+                    Response.Redirect("~/Asignacion/Asignar");
+                }
+                else
+                {
+                    lblAviso.Text = "Ocurrió un error al tratar de almacenar la información.";
+                    lblAviso.Visible = true;
+                }
             }
         }
 

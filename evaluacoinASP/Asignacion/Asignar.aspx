@@ -56,6 +56,11 @@
             </FooterTemplate>
         </asp:Repeater>
     </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <asp:Label ID="lblAviso" runat="server" CssClass="p-3 mb-2 bg-danger text-white" Visible="false"></asp:Label>
+        </div>
+    </div>
     <br />
     <div class="container"  style="border:solid;">
         <div class="row" style="padding:5px;">

@@ -91,5 +91,31 @@ namespace evaluacoinASP.Class.Catal.V2
             }
             return centro;
         }
+
+        public bool LimpiarAsignacion(CentroTrabajo centro)
+        {
+            bool correcto = false;
+            SqlConnection oCon = new SqlConnection(cadena);
+            SqlCommand oCmd = new SqlCommand("dbo.eliminaAsignacionEvaluador", oCon);
+            oCmd.Parameters.AddWithValue("@idCentroTrabajo", centro.IDGlobal);
+            oCmd.CommandType = CommandType.StoredProcedure;
+            try
+            {
+                oCon.Open();
+                oCmd.ExecuteNonQuery();
+                correcto = true;
+            }
+            catch (Exception)
+            {
+                correcto = false;
+            }
+            finally
+            {
+                if (oCon.State == ConnectionState.Open)
+                    oCon.Close();
+                oCon.Dispose();
+            }
+            return correcto;
+        }
     }
 }

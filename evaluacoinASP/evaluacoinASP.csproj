@@ -218,17 +218,21 @@
     <Content Include="Asignacion\admAsignar.aspx" />
     <Content Include="Asignacion\admAsignarV2.aspx" />
     <Content Include="Asignacion\Asignar.aspx" />
+    <Content Include="Asignacion\AsignEmp.aspx" />
+    <Content Include="Asignacion\man\fndEmp.aspx" />
     <Content Include="Catal\FuncEval.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\chosen.css" />
+    <Content Include="Content\images\calendar.png" />
     <Content Include="Content\images\checked.png" />
     <Content Include="Content\images\del.png" />
     <Content Include="Content\images\delete.png" />
     <Content Include="Content\images\delete_disabled.png" />
     <Content Include="Content\images\done.png" />
     <Content Include="Content\images\edit.png" />
+    <Content Include="Content\images\edit_calendar.png" />
     <Content Include="Content\images\in.png" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\no_checked.png" />
@@ -439,6 +443,20 @@
     </Compile>
     <Compile Include="Asignacion\Asignar.aspx.designer.cs">
       <DependentUpon>Asignar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Asignacion\AsignEmp.aspx.cs">
+      <DependentUpon>AsignEmp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Asignacion\AsignEmp.aspx.designer.cs">
+      <DependentUpon>AsignEmp.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Asignacion\man\fndEmp.aspx.cs">
+      <DependentUpon>fndEmp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Asignacion\man\fndEmp.aspx.designer.cs">
+      <DependentUpon>fndEmp.aspx</DependentUpon>
     </Compile>
     <Compile Include="Catal\FuncEval.aspx.cs">
       <DependentUpon>FuncEval.aspx</DependentUpon>
