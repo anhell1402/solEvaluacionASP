@@ -96,8 +96,8 @@ namespace evaluacoinASP.Class.Catal.V2
         {
             bool correcto = false;
             SqlConnection oCon = new SqlConnection(cadena);
-            SqlCommand oCmd = new SqlCommand("dbo.eliminaAsignacionEvaluador", oCon);
-            oCmd.Parameters.AddWithValue("@idCentroTrabajo", centro.IDGlobal);
+            SqlCommand oCmd = new SqlCommand("dbo.deleteEliminaEvaluadoresCentroTrabajo", oCon);
+            oCmd.Parameters.AddWithValue("@idCentro", centro.IDGlobal);
             oCmd.CommandType = CommandType.StoredProcedure;
             try
             {

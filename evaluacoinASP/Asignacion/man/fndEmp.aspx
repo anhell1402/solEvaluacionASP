@@ -1,6 +1,44 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="fndEmp.aspx.cs" Inherits="evaluacoinASP.Asignacion.man.fndEmp" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <asp:Panel ID="pnlPadre" runat="server">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <h4>Información del empleado evaluador</h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-2">Cve Empleado:</div>
+                    <div class="col-lg-1"><asp:Label ID="lblCve" runat="server" Font-Bold="true"></asp:Label></div>
+                    <div class="col-lg-2">Nombre:</div>
+                    <div class="col-lg-6"><asp:Label ID="lblNombre" runat="server" Font-Bold="true"></asp:Label></div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-2">Puesto:</div>
+                    <div class="col-lg-4"><asp:Label ID="lblPuesto" runat="server" Font-Bold="true"></asp:Label></div>
+                    <div class="col-lg-2">Unidad Responsable:</div>
+                    <div class="col-lg-4"><asp:Label ID="lblUR" runat="server" Font-Bold="true"></asp:Label></div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-2">Centro de Trabajo:</div>
+                    <div class="col-lg-4"><asp:Label ID="lblCT" runat="server" Font-Bold="true"></asp:Label></div>
+                    <div class="col-lg-2">Area:</div>
+                    <div class="col-lg-4"><asp:Label ID="lblArea" runat="server" Font-Bold="true"></asp:Label></div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-1">Municipio:</div>
+                    <div class="col-lg-2"><asp:Label ID="lblMunicipio" runat="server" Font-Bold="true"></asp:Label></div>
+                    <div class="col-lg-1">Desde:</div>
+                    <div class="col-lg-3"><asp:Label ID="lblInicio" runat="server" Font-Bold="true"></asp:Label></div>
+                    <div class="col-lg-1">Hasta:</div>
+                    <div class="col-lg-3"><asp:Label ID="lblFin" runat="server" Font-Bold="true"></asp:Label></div>
+                </div>
+            </div>
+        </div>
+    </asp:Panel>
+    <br />
     <asp:UpdatePanel ID="upAsignacion" runat="server">
         <ContentTemplate>
             <div class="modal-content">

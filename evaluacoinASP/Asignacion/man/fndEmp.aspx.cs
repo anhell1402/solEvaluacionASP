@@ -13,6 +13,43 @@ namespace evaluacoinASP.Asignacion.man
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            try
+            {
+                int p = Convert.ToInt32(Request.QueryString["p"]);
+                if (p > 0)
+                {
+                    BaseEmpleado emp = new BaseEmpleado();
+                    BaseEvaluador obj = new BaseEvaluador();
+                    emp.IDGral = p;
+                    emp = obj.ObtenerInfoPersonalAsignacionManual(emp);
+                    if (emp != null)
+                    {
+                        lblCve.Text = emp.CveEmpleado.ToString();
+                        lblNombre.Text = emp.Nombre + " " + emp.Paterno + " " + emp.Materno;
+                        lblPuesto.Text = emp.DenominacionPlaza;
+                        lblUR.Text = emp.UnidadResponsable;
+                        lblArea.Text = emp.Area;
+                        lblCT.Text = emp.CentroDeTrabajo;
+                        lblMunicipio.Text = emp.Municipio;
+                        lblInicio.Text = emp.FechaInicio;
+                        lblFin.Text = emp.FechaFin;
+                        pnlPadre.Visible = true;
+                    }
+                    else
+                    {
+                        pnlPadre.Visible = false;
+                    }
+                }
+                else
+                {
+                    pnlPadre.Visible = false;
+                }
+            }
+            catch (Exception)
+            {
+                pnlPadre.Visible = false;
+            }
+
             txtDesde.Attributes.Add("readonly", "readonly");
             txtHasta.Attributes.Add("readonly", "readonly");
         }

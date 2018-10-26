@@ -225,6 +225,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\chosen.css" />
+    <Content Include="Content\images\addE.png" />
     <Content Include="Content\images\calendar.png" />
     <Content Include="Content\images\checked.png" />
     <Content Include="Content\images\del.png" />
@@ -235,6 +236,7 @@
     <Content Include="Content\images\edit_calendar.png" />
     <Content Include="Content\images\in.png" />
     <Content Include="Content\images\loading.gif" />
+    <Content Include="Content\images\minus.png" />
     <Content Include="Content\images\no_checked.png" />
     <Content Include="Content\images\out.png" />
     <Content Include="Content\images\pre_done.png" />

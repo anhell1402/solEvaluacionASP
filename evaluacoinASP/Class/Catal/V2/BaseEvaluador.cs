@@ -306,7 +306,7 @@ namespace evaluacoinASP.Class.Catal.V2
                     lst.Add(empleado);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 lst = null;
             }
@@ -440,6 +440,82 @@ namespace evaluacoinASP.Class.Catal.V2
                 oCon.Dispose();
             }
             return lst;
+        }
+
+        public bool EliminaAsignacionManual(BaseEmpleado empleado, bool esPadre)
+        {
+            bool correcto = false;
+            SqlConnection oCon = new SqlConnection(cadena);
+            SqlCommand oCmd = new SqlCommand("dbo.deleteEliminaAsignacionManual", oCon);
+            oCmd.CommandType = CommandType.StoredProcedure;
+            oCmd.Parameters.AddWithValue("@idGral", empleado.IDGral);
+            if (esPadre)
+                oCmd.Parameters.AddWithValue("@padre", "1");
+            else
+                oCmd.Parameters.AddWithValue("@padre", "0");
+            try
+            {
+                oCon.Open();
+                oCmd.ExecuteNonQuery();
+                correcto = true;
+            }
+            catch (Exception ex)
+            {
+                correcto = false;
+            }
+            finally
+            {
+                if (oCon.State == ConnectionState.Open)
+                    oCon.Close();
+                oCon.Dispose();
+            }
+            return correcto;
+        }
+
+        public BaseEmpleado ObtenerInfoPersonalAsignacionManual(BaseEmpleado emp)
+        {
+            SqlConnection oCon = new SqlConnection(cadena);
+            SqlCommand oCmd = new SqlCommand("dbo.getPadreEvaluadorAsignadoManual", oCon);
+            oCmd.CommandType = CommandType.StoredProcedure;
+            oCmd.Parameters.AddWithValue("@idGral", emp.IDGral);
+            SqlDataReader dr;
+            try
+            {
+                oCon.Open();
+                dr = oCmd.ExecuteReader();
+                dr.Read();
+                emp.IDGral = Convert.ToInt32(dr["idAsignacionManual"]);
+                emp.CveEmpleado = Convert.ToInt32(dr["idEmpleado"]);
+                emp.Inicio = Convert.ToDateTime(dr["inicio"]);
+                emp.Fin = Convert.ToDateTime(dr["fin"]);
+                emp.IdUR = Convert.ToInt32(dr["idUR"]);
+                emp.IdArea = Convert.ToInt32(dr["idArea"]);
+                emp.IdCentroTrabajo = Convert.ToInt32(dr["idCT"]);
+                emp.IdEstado = Convert.ToInt32(dr["idEstado"]);
+                emp.IdMunicipio = Convert.ToInt32(dr["idMunicipio"]);
+                emp.Anio = Convert.ToInt32(dr["anio"]);
+                emp.IdPadre = Convert.ToInt32(dr["idPadre"]);
+                emp.SupleAsignacion = Convert.ToInt32(dr["supleAsigAut"]);
+                emp.Paterno = dr["ApellidoPaterno"].ToString();
+                emp.Materno = dr["ApellidoMaterno"].ToString();
+                emp.Nombre = dr["Nombre"].ToString();
+                emp.DenominacionPlaza = dr["DenominacionPlaza"].ToString();
+                emp.Area = dr["Area"].ToString();
+                emp.CentroDeTrabajo = dr["CentroDeTrabajo"].ToString();
+                emp.Municipio = dr["Municipio"].ToString();
+                emp.UnidadResponsable = dr["UnidadResponsable"].ToString();
+            }
+            catch (Exception ex)
+            {
+                emp = null;
+            }
+            finally
+            {
+                if (oCon.State == ConnectionState.Open)
+                    oCon.Close();
+                oCon.Dispose();
+            }
+            return emp;
         }
     }
 }
